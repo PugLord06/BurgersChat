@@ -17,7 +17,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "npx ts-node src/server.ts",
+    "start:frontend": "react-scripts start",
+    "start:backend": "npx ts-node src/Backend/server.ts",
     "build": "tsc",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

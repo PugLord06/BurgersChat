@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "target": "ESNext", // Modern Node.js supports ESNext
     "module": "CommonJS", // Node.js default for `ts-node` compatibility
     "outDir": "./dist", // Output directory for compiled JS

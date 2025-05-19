@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 interface Message {
-  role: "user" | "assistant";
+  role: "user" | "assistant"; 
   content: string;
 }
 
@@ -28,7 +28,6 @@ app.post("/api/chat", async (req: Request, res: Response) => {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("API key not set");
 
-    // Use query parameter for API key as per curl example
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
@@ -38,6 +37,7 @@ app.post("/api/chat", async (req: Request, res: Response) => {
         },
         body: JSON.stringify({
           contents: chatHistory.map((msg) => ({
+            role: msg.role === "assistant" ? "model" : msg.role, // Map "assistant" to "model"
             parts: [{ text: msg.content }],
           })),
         }),
