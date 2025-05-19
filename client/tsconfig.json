@@ -1,28 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "target": "ESNext", // Modern Node.js supports ESNext
+    "module": "CommonJS", // Node.js default for `ts-node` compatibility
+    "outDir": "./dist", // Output directory for compiled JS
+    "rootDir": "./src", // Source directory
     "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "allowJs": true,
+    "noEmit": false // Allow `ts-node` to emit/transpile
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

@@ -2,3 +2,4 @@ node_modules
 n.env
 ndist
 n.vercel
+.env

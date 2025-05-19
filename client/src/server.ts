@@ -21,38 +21,48 @@ let chatHistory: Message[] = [];
 app.post("/api/chat", async (req: Request, res: Response) => {
   try {
     const userMessage: string = req.body.message;
+    if (!userMessage) throw new Error("No message provided");
+
     chatHistory.push({ role: "user", content: userMessage });
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("API key not set");
 
+    // Use query parameter for API key as per curl example
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           contents: chatHistory.map((msg) => ({
-            role: msg.role,
             parts: [{ text: msg.content }],
           })),
         }),
       }
     );
 
-    if (!response.ok) throw new Error("API request failed");
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API request failed: ${response.status} - ${errorText}`);
+    }
+
     const data = (await response.json()) as {
-      candidates: Array<{ content: { parts: Array<{ text: string }> } }>;
+      candidates?: Array<{ content: { parts: Array<{ text: string }> } }>;
     };
+
+    if (!data.candidates?.[0]?.content?.parts?.[0]?.text) {
+      throw new Error("Unexpected API response structure");
+    }
+
     const aiMessage: string = data.candidates[0].content.parts[0].text;
     chatHistory.push({ role: "assistant", content: aiMessage });
 
     res.json({ message: aiMessage });
   } catch (error) {
-    console.error(error);
+    console.error("Error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
