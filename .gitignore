@@ -4,3 +4,4 @@ ndist
 n.vercel
 .env
 /client/dist
+replacements.txt

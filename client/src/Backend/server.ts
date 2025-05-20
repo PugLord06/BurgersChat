@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 interface Message {
-  role: "user" | "assistant"; 
+  role: "user" | "assistant";
   content: string;
 }
 
