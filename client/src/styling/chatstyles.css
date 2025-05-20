@@ -31,7 +31,7 @@
 }
 
 .message-bubble {
-  @apply max-w-xs md:max-w-md lg:max-w-lg p-4 rounded-lg shadow-md;
+  @apply max-w-xs md:max-w-md lg:max-w-lg p-1 rounded-lg shadow-md;
 }
 
 .message-user-bubble {
