@@ -7,6 +7,7 @@ dotenv.config();
 
 const app = express();
 const port = 5000;
+const apiKey = process.env.GEMINI_API_KEY;
 
 app.use(cors());
 app.use(express.json());
@@ -25,7 +26,7 @@ app.post("/api/chat", async (req: Request, res: Response) => {
 
     chatHistory.push({ role: "user", content: userMessage });
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    
     if (!apiKey) throw new Error("API key not set");
 
     const response = await fetch(
