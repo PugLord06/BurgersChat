@@ -1,6 +1,6 @@
 import React from 'react';
 import Chat from './Frontend/chat';
-import "./index.css";
+import './styling/index.css';
 
 
 function App() {

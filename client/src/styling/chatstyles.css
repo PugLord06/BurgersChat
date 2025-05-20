@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.chat-container {
+  @apply flex flex-col min-h-[100dvh] bg-gray-100 dark:bg-gray-800;
+}
+
+.chat-header {
+  @apply p-4 bg-blue-600 text-white text-center sticky top-0 z-10;
+}
+
+.chat-header-title {
+  @apply text-xl font-semibold;
+}
+
+.chat-messages {
+  @apply flex-1 overflow-y-auto p-4 space-y-4;
+}
+
+.message-container {
+  @apply flex;
+}
+
+.message-user {
+  @apply justify-end;
+}
+
+.message-assistant {
+  @apply justify-start;
+}
+
+.message-bubble {
+  @apply max-w-xs md:max-w-md lg:max-w-lg p-4 rounded-lg shadow-md;
+}
+
+.message-user-bubble {
+  @apply bg-blue-500 text-white;
+}
+
+.message-assistant-bubble {
+  @apply bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600;
+}
+
+.message-content {
+  @apply prose prose-sm dark:prose-invert max-w-none;
+}
+
+.input-container {
+  @apply p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600 sticky bottom-0 z-10;
+}
+
+.input-wrapper {
+  @apply flex space-x-2 max-w-4xl mx-auto;
+}
+
+.input-field {
+  @apply flex-1 p-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400;
+}
+
+.send-button {
+  @apply px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700;
+}

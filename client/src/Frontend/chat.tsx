@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import '../styling/chatstyles.css';
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -16,7 +18,7 @@ const Chat: React.FC = () => {
     setInput('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/chat', {
+      const response = await fetch('http://192.168.68.109:5000/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: input }),
@@ -32,25 +34,42 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <div className="flex-1 overflow-y-auto p-4">
+    <div className="chat-container">
+      <div className="chat-header">
+        <h1 className="chat-header-title">BurgersDev Chat</h1>
+      </div>
+      <div className="chat-messages">
         {messages.map((msg, index) => (
-          <div key={index} className={`mb-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-            <span className={`inline-block p-2 rounded-lg ${msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>
-              {msg.content}
-            </span>
+          <div
+            key={index}
+            className={`message-container ${msg.role === 'user' ? 'message-user' : 'message-assistant'}`}
+          >
+            <div
+              className={`message-bubble ${
+                msg.role === 'user' ? 'message-user-bubble' : 'message-assistant-bubble'
+              }`}
+            >
+              <article className="message-content">
+                <ReactMarkdown>{msg.content}</ReactMarkdown>
+              </article>
+            </div>
           </div>
         ))}
       </div>
-      <div className="p-4 bg-black">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyUp={(e) => e.key === 'Enter' && sendMessage()}
-          className="w-full p-2 border rounded"
-          placeholder="Type your message..."
-        />
+      <div className="input-container">
+        <div className="input-wrapper">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyUp={(e) => e.key === 'Enter' && sendMessage()}
+            className="input-field"
+            placeholder="Type your message..."
+          />
+          <button onClick={sendMessage} className="send-button">
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );

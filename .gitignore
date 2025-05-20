@@ -3,3 +3,4 @@ n.env
 ndist
 n.vercel
 .env
+/client/dist
