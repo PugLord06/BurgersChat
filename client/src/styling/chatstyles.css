@@ -61,3 +61,6 @@
 .send-button {
   @apply px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700;
 }
+.logout-button{
+  @apply absolute top-2.5 right-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700;
+}

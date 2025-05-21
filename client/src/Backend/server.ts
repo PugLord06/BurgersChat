@@ -68,6 +68,18 @@ app.post("/api/chat", async (req: Request, res: Response) => {
   }
 });
 
+app.post("/api/login", (req: Request, res: Response) => {
+  const { username, password } = req.body;
+
+  // Replace with your actual authentication logic
+  if (username === "admin" && password === "password") {
+    const token = "example-token"; // Replace with a real JWT or session token
+    res.json({ token });
+  } else {
+    res.status(401).json({ error: "Invalid credentials" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
