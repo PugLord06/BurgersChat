@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styling/chatstyles.css";
 import ReactMarkdown from "react-markdown";
+import TypewriterMessage from "../styling/animations/TypewriterMessage";
+import { useNavigate } from "react-router-dom";
 
 interface Message {
   role: "user" | "assistant";
@@ -10,6 +12,19 @@ interface Message {
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login"); // Redirect to login if no token is found
+    }
+  }, [navigate]);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("token"); // Remove the token
+    navigate("/login"); // Redirect to the login page
+  };
 
   const sendMessage = async () => {
     if (input.trim() === "") return;
@@ -37,6 +52,12 @@ const Chat: React.FC = () => {
     <div className="chat-container">
       <div className="chat-header">
         <h1 className="chat-header-title">BurgersDev Chat</h1>
+        <button
+          onClick={handleSignOut}
+          className="logout-button"
+        >
+          Sign Out
+        </button>
       </div>
       <div className="chat-messages">
         {messages.map((msg, index) => (
@@ -54,7 +75,11 @@ const Chat: React.FC = () => {
               }`}
             >
               <article className="message-content">
-                <ReactMarkdown>{msg.content}</ReactMarkdown>
+                {msg.role === "assistant" ? (
+                  <TypewriterMessage content={msg.content} />
+                ) : (
+                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                )}
               </article>
             </div>
           </div>
