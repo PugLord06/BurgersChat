@@ -18,7 +18,7 @@ const Chat: React.FC = () => {
     setInput("");
 
     try {
-      const response = await fetch("http://192.168.68.109:5000/api/chat", {
+      const response = await fetch("http://localhosy:5000/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
