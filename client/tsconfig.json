@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "target": "ESNext", // Modern Node.js supports ESNext
-    "module": "CommonJS", // Node.js default for `ts-node` compatibility
-    "outDir": "./dist", // Output directory for compiled JS
+    "jsx": "react", // Needed for frontend .tsx files
+    "target": "ESNext", // Modern JavaScript features
+    "module": "ESNext", // ESM for backend and frontend
+    "outDir": "./dist", // Compiled JavaScript output
     "rootDir": "./src", // Source directory
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "allowJs": true,
-    "noEmit": false // Allow `ts-node` to emit/transpile
+    "strict": true, // Strict type-checking
+    "esModuleInterop": true, // CommonJS interop
+    "skipLibCheck": true, // Skip .d.ts checks
+    "forceConsistentCasingInFileNames": true, // Case sensitivity
+    "moduleResolution": "node", // Node.js module resolution
+    "allowJs": true, // Allow .js files
+    "noEmit": false // Emit compiled JavaScript
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

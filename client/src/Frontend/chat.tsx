@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styling/chatstyles.css";
 import ReactMarkdown from "react-markdown";
 import TypewriterMessage from "../styling/animations/TypewriterMessage";
@@ -33,7 +33,7 @@ const Chat: React.FC = () => {
     setInput("");
 
     try {
-      const response = await fetch("http://192.168.68.109:5000/api/chat", {
+      const response = await fetch("http://localhost:5000/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
@@ -52,10 +52,7 @@ const Chat: React.FC = () => {
     <div className="chat-container">
       <div className="chat-header">
         <h1 className="chat-header-title">BurgersDev Chat</h1>
-        <button
-          onClick={handleSignOut}
-          className="logout-button"
-        >
+        <button onClick={handleSignOut} className="logout-button">
           Sign Out
         </button>
       </div>

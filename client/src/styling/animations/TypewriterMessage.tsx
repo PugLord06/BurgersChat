@@ -6,7 +6,7 @@ interface Props {
   speed?: number; // ms per character
 }
 
-const TypewriterMessage: React.FC<Props> = ({ content, speed = 25 }) => {
+const TypewriterMessage: React.FC<Props> = ({ content, speed = 0 }) => {
   const [displayedText, setDisplayedText] = useState("");
 
   useEffect(() => {
