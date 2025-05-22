@@ -6,10 +6,12 @@ import {
   createUserContent,
   GenerateContentResponse,
   GoogleGenAI,
+  Modality,
   PartListUnion,
 } from "@google/genai";
 import { Part } from "@google/generative-ai";
 import { text } from "stream/consumers";
+import * as fs from "node:fs";
 
 dotenv.config();
 
@@ -39,13 +41,12 @@ app.post("/api/chat", async (req: Request, res: Response) => {
       role: "user",
     });
 
-    const chat = burgersAI.chats.create({
-      model: "gemini-2.0-flash",
-      history: chatHistory,
-    });
-
-    const response = await chat.sendMessage({
-      message: userMessage,
+    const response = await burgersAI.models.generateContent({
+      model: "gemini-2.0-flash-preview-image-generation",
+      contents: userMessage,
+      config: {
+        responseModalities: [Modality.TEXT, Modality.IMAGE],
+      },
     });
     console.log("API Response:", response.text);
 
@@ -53,12 +54,30 @@ app.post("/api/chat", async (req: Request, res: Response) => {
       throw new Error("API request failed: No response text returned");
     }
 
-    chatHistory.push({
-      parts: [{ text: response.text }],
-      role: "model",
-    });
+    if (response.candidates && response.candidates[0]?.content?.parts) {
+      for (const part of response.candidates[0].content.parts) {
+        if (part.text) {
+          res.json({ message: response.text });
+        }else if(part.inlineData){
+          const imageData = part.inlineData.data;
+          if (imageData) {
+            const buffer = Buffer.from(imageData, "base64");
+            fs.writeFileSync("../client/src/backend/images/gemini-test-image.png", buffer);
+          } else {
+            throw new Error("Image data is undefined");
+          }
+        }
+      }
+    }
 
-    res.json({ message: response.text });
+    if (response.text) {
+      chatHistory.push({
+        parts: [{ text: response.text }],
+        role: "model",
+      });
+    } else {
+      throw new Error("API request failed: No response text returned");
+    }
   } catch (error) {
     console.error("Error:", error);
     res
